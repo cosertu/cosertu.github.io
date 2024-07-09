@@ -1,0 +1,12 @@
+{{ define "main" }}
+      <!-- bread crumbs -->
+      {{- if not .IsHome }}
+      <div class="bg-gray-800 text-center rounded-t-md p-2">
+        <span class="ml-2 font-semibold">{{ .Title }}</span>
+      </div>
+      {{- end }}
+{{ partial "list-posts.html" .Paginator.Pages }}
+{{- if gt .Paginator.TotalPages 1 }}
+{{ partial "pagination.html" . }}
+{{- end }}
+{{ end }}

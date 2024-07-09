@@ -1,0 +1,30 @@
+baseURL = "https://cosertu.github.io/"
+languageCode = "zh-CN"
+title = "CoserTu"
+theme = "xjj"
+paginate=12
+
+enableRobotsTXT = true
+hasCJKLanguage=true
+uglyURLs = true
+
+[taxonomies]
+  model = 'models'
+  tag = 'tags'
+
+[related]
+  includeNewer = false
+  threshold = 80
+  toLower = false
+[[related.indices]]
+  name = 'models'
+  weight = 80
+[[related.indices]]
+  name = 'tags'
+  weight = 80
+[[related.indices]]
+  name = 'date'
+  weight = 80
+
+[params]
+description = "网红小姐姐动漫Cosplay美图分享"

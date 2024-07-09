@@ -1,0 +1,29 @@
+{{- if .IsPage }}
+{{- $featureImage := "" -}}
+{{- with .Params.Thumbnail -}}
+  {{- $featureImage = . -}}
+{{- else -}}
+  {{- with .Params.Image_urls -}}
+    {{- $featureImage = index . 0 }}
+  {{- else -}}
+    {{- $matches := findRE `<img[^>]*\s+src="[^"]+"` .Content -}}
+    {{- with $matches -}}
+      {{- $matches := findRE `src="[^"]+"` (index $matches 0) -}}
+      {{- $featureImage = index (split (index $matches 0) `"`) 1 -}}
+    {{- end -}}
+  {{- end -}}
+{{- end }}
+  <meta property="og:title" content="{{.Title}}" />
+  {{- with .Summary }}
+  <meta property="og:description" content="{{.}}" />
+  {{- end }}
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="{{.Permalink}}" />
+  {{- with $featureImage }}
+    {{- if site.Params.Image_proxy}}
+  <meta property="og:image" content="{{print site.Params.Image_proxy (htmlEscape .)}}" />
+    {{- else }}
+  <meta property="og:image" content="{{.}}" />
+    {{- end }}
+  {{- end }}
+{{- end }}

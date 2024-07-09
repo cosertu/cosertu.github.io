@@ -1,0 +1,31 @@
+        {{- $featureImage := "/images/none.jpg" | absURL -}}
+        {{- with .Params.Thumbnail -}}
+          {{- $featureImage = . -}}
+        {{- else -}}
+          {{- with .Params.Image_urls -}}
+            {{- $featureImage = index . 0 }}
+          {{- else -}}
+            {{- $matches := findRE `<img[^>]*\s+src="[^"]+"` .Content -}}
+            {{- with $matches -}}
+              {{- $matches := findRE `src="[^"]+"` (index $matches 0) -}}
+              {{- $featureImage = index (split (index $matches 0) `"`) 1 -}}
+            {{- end -}}
+          {{- end -}}
+        {{- end -}}
+        {{- if site.Params.Image_proxy }}
+          {{- $featureImage = print site.Params.Image_proxy (htmlEscape $featureImage) -}}
+        {{- end }}
+        <div class="p-2">
+          <div>
+            <a href="{{.Permalink}}">
+              <img src="{{ replace $featureImage "https://" "https://i1.wp.com/" }}" onerror="this.src='{{$featureImage}}'" referrerpolicy="no-referrer" alt="{{ .Params.title }}" class="rounded-lg shadow-sm w-full h-72 md:h-96 object-cover" />
+            </a>            
+          </div>
+          <div class="text-center font-semibold"><a href="{{.Permalink}}">{{ .Title }}</a></div>
+          <div class="text-sm text-gray-500 text-center">
+            {{- range .Params.Models }}
+            <a href="{{ print "/models/" (urlize .) "/" | absURL }}"><i class="fa fa-user fa-fw"></i>{{.}}</a>
+            {{- end }}
+            <i class="fa fa-clock-o fa-fw"></i><time datetime="{{ .Params.Date.Format "2006-01-02T15:04:05Z07:00" }}">{{ .Params.date.Format "2006-01-02" }}</time>
+          </div>
+        </div>

@@ -1,0 +1,4 @@
+<div id="sibling-posts" class="grid grid-cols-1 md:grid-cols-2 gap-3">
+  <div><span class="text-gray-400 mr-1">Prev:</span>{{ with .Prev }}<a class="font-semibold" href="{{.Permalink}}">{{.Title}}</a>{{ else }}None{{ end }}</div>
+  <div><span class="text-gray-400 mr-1">Next:</span>{{ with .Next }}<a class="font-semibold" href="{{.Permalink}}">{{.Title}}</a>{{ else }}None{{ end }}</div>
+</div>

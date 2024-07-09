@@ -1,0 +1,35 @@
+[params]
+disclaimer = false   # 是否开启成人免责声明(如果网站有成人内容时候建议开启)
+footer = '<small>网红小姐姐动漫Cosplay美图分享</small>'
+# logo = "/logo.png"
+favicon = "/favicon.ico"
+#image_paginate = 10   # 设置图片分页(对image_urls字段的进行分页)，不设置则不分页
+#image_proxy = "https://images.weserv.nl/?url=" # 设置图片代理，只对image_urls中的图片生效
+# [[menu.main]]
+# name = "首页"
+# url = "/"
+# weight = 1
+# [[menu.main]]
+# name = "大胸美女"
+# url = "/tags/大胸/"
+# weight = 2
+# [[menu.main]]
+# name = "黑丝美女"
+# url = "/tags/黑丝/"
+# weight = 3
+# [[menu.main]]
+# name = "内衣美女"
+# url = "/tags/内衣/"
+# weight = 4
+# [[menu.main]]
+# name = "制服美女"
+# url = "/tags/制服/"
+# weight = 5
+# [[menu.main]]
+# name = "捆绑美女"
+# url = "/tags/捆绑/"
+# weight = 6
+# [[menu.main]]
+# name = "长发美女"
+# url = "/tags/长发/"
+# weight = 7

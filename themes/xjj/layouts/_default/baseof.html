@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="{{ .Site.LanguageCode }}">
+{{ partial "head.html" . }}
+<body class="bg-black">
+  <div class="container mx-auto p-1 text-white">
+{{ partial "header.html" . }}
+{{ block "main" . }}{{- end }}
+{{ partial "list-taxonomy-terms.html" "models" }}
+{{ partial "list-taxonomy-terms.html" "tags" }}
+{{ partial "footer.html" . }}
+  </div>
+</body>
+</html>

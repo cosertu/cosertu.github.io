@@ -1,0 +1,80 @@
+{{ define "main" }}
+<header class="bg-gray-800 text-center rounded-t-md p-2">
+  <h1 class="text-xl font-bold">{{ .Title }}</h1>
+</header>
+<div class="text-sm text-gray-400 text-center mb-2">
+  {{- with .Params.models}}
+  <span>模特:</span>
+    {{- range . }}
+  <a href="{{ print "/models/" (urlize .) "/" | absURL }}"><i class="fa fa-user fa-fw"></i>{{ . }}</a>
+    {{- end }}
+  {{- end }}
+  {{- with .Params.Date }}
+  <span class="ml-2">日期:</span>
+  <time datetime="{{ .Format "2006-01-02T15:04:05Z07:00" }}"><i class="fa fa-clock-o fa-fw"></i>{{ .Format "2006-01-02" }}</time>
+  {{- end }}
+</div>
+<div>
+  {{.Content}}
+  {{- if .Params.Image_urls }}
+  {{- $alttext := .Title }}
+  <div id="gallery">
+  {{- if site.Params.Image_paginate }}
+    {{- range $i, $url := first site.Params.Image_paginate .Params.Image_urls }}
+      {{- if site.Params.Image_proxy}}
+    <img src="{{print site.Params.Image_proxy (htmlEscape $url)}}" alt="{{ print $alttext "(" (add $i 1) ")" }}" title="{{ print $alttext "(" (add $i 1) ")" }}" class="block my-2 mx-auto" />
+      {{- else }}  
+    <img src="{{$url}}" alt="{{ print $alttext "(" (add $i 1) ")" }}" title="{{ print $alttext "(" (add $i 1) ")" }}" class="block my-2 mx-auto" />
+      {{- end }}
+    {{- end }}
+  {{- else }}
+    {{- range $i, $url := .Params.Image_urls }}    
+      {{- if site.Params.Image_proxy}}
+    <img src="{{print site.Params.Image_proxy (htmlEscape $url)}}" alt="{{ print $alttext "(" (add $i 1) ")" }}" title="{{ print $alttext "(" (add $i 1) ")" }}" class="block my-2 mx-auto" />
+      {{- else }}  
+    <img src="{{ replace $url "https://" "https://i1.wp.com/" }}" onerror="this.src='{{$url}}'" referrerpolicy="no-referrer" alt="{{ print $alttext "(" (add $i 1) ")" }}" title="{{ print $alttext "(" (add $i 1) ")" }}" class="block my-2 mx-auto" />
+      {{- end }}
+    {{- end }}
+  {{- end }}
+  </div>
+  {{- if and site.Params.Image_paginate .Params.Image_urls | and (lt site.Params.Image_paginate .Params.Image_urls) }}
+  <div id="paginate" class="m-2"></div>
+  <script>
+    var title = '{{.Title}}';
+    var imageUrls = {{.Params.Image_urls}};
+    var total = {{ len .Params.Image_urls }};
+    var perPage = {{ site.Params.Image_paginate }}
+    var currentPage = 1;
+    {{- with site.Params.Image_proxy }}var imageProxy={{.}};{{else}}var imageProxy=false;{{- end }}
+  </script>
+  <script src="{{"/js/gallery.js" | absURL}}"></script>
+  <script>showImages(1);</script>
+  {{- end }}
+  {{- end }}
+  {{- with .Params.Video_embeded }}
+  <iframe src="{{ . }}" frameborder=0 marginwidth=0 marginheight=0 scrolling=no style="width:100%;aspect-ratio: 16 / 9;" allowfullscreen></iframe>
+  {{- end }}
+</div>
+{{- with .Params.Tags }}
+<div class="text-sm text-gray-400 mb-2">
+  <span>Tags:</span>
+  {{- range . }}
+  <a href="{{ print "/tags/" (urlize .) "/" | absURL }}"><i class="fa fa-tag fa-fw"></i>{{ . }}</a>
+  {{- end }}
+</div>
+{{- end }}
+<div class="social-share text-center mb-2" data-disabled="weibo,qq,wechat,douban,qzone,linkedin"></div>
+<link rel="stylesheet" href="{{ absURL "/css/share.min.css" }}">
+<script src="{{ absURL "/js/social-share.min.js" }}"></script>
+<!-- Prev Next -->
+{{ partial "sibling-posts.html" . }}
+<!-- Related posts -->
+<!-- {{- $related := .Site.RegularPages.Related . | first 4 }} -->
+{{- $related := .Site.RegularPages.RelatedIndices . | first 4 }}
+{{- with $related }}
+<div class="my-2">
+  <header class="p-2 bg-gray-800 text-white text-center font-semibold rounded-t-md">Related</header>
+  {{ partial "list-posts.html" . }}
+</div>
+{{- end }}
+{{ end }}
